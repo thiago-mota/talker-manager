@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const fs = require('fs').promises;
-const { uuid } = require('uuidv4');
 const crypto = require('crypto');
 
 const app = express();
@@ -18,7 +17,6 @@ const createRandomToken = () => {
 };
 
 // https://stackoverflow.com/a/27747377
-// const RANDOM_TOKEN = { token: createRandomToken() };
 
 const readTalkerJSON = async () => {
   const talkers = await fs.readFile('talker.json', 'utf8');
@@ -47,7 +45,7 @@ app.get('/talker/:id', async (request, response) => {
   .send(specificTalker);
 });
 
-app.post('/login', (request, response) => (
+app.post('/login', (_request, response) => (
   response
     .status(HTTP_OK_STATUS)
     .json({ token: createRandomToken() })
