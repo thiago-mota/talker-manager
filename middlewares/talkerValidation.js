@@ -12,6 +12,14 @@ const validateToken = (request, response, next) => {
  next();
 };
 
+const validateName = (request, response, next) => {
+  const { name } = request.body;
+  if (!name) return response.status(HTTP_BAD_REQUEST).json(NAME_REQUIRED);
+  if (name.length <= 3) return response.status(HTTP_BAD_REQUEST).json(INVALID_NAME_LENGTH);
+
+  next();
+};
+
 // const validateAge = () => {
 
 // };
