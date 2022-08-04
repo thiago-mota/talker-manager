@@ -6,6 +6,7 @@ const { HTTP_OK_STATUS } = require('./helpers/messages/statusMessages');
 const loginValidation = require('./middlewares/loginValidation');
 const getTalker = require('./helpers/services/getTalker');
 const talkerIdValidation = require('./middlewares/talkerIdValidation');
+const { validateName, validateToken } = require('./middlewares/talkerValidation');
 
 const app = express();
 app.use(bodyParser.json());
@@ -17,11 +18,15 @@ app.get('/talker', async (_request, response) => (
     .status(HTTP_OK_STATUS)
     .send(await readTalkerJSON())
   ));
-  
+
 app.get('/talker/:id', talkerIdValidation, async (request, response) => {
   response
     .status(200)
     .json(await getTalker(request));
+});
+
+app.post('/talker', validateToken, validateName, (request, response) => {
+  response.status(200).json('deu bom');
 });
 
 app.post('/login', loginValidation, (_request, response) => (
