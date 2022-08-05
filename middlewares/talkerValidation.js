@@ -68,7 +68,7 @@ const validateTalk = (request, response, next) => {
   next();
 };
 
-const validateWatched = (request, response, next) => {
+const validateWatchedAt = (request, response, next) => {
   const { watchedAt } = request.body.talk;
   const dateRegex = /^([0-2][0-9]|(3)[0-1])(\/)(((0)[0-9])|((1)[0-2]))(\/)\d{4}$/;
   // https://www.regextester.com/99555
@@ -88,31 +88,34 @@ const validateWatched = (request, response, next) => {
   next();
 };
 
-const validateRate = (request, response, next) => {
+const checkIfRateExist = (request, response, next) => {
   const { rate } = request.body.talk;
 
-  if (!rate) {
+  if (!rate && rate !== 0) {
     return response
       .status(HTTP_BAD_REQUEST)
       .json({ message: RATE_REQUIRED });
   }
-  if (typeof Object.values(rate) !== 'number'
-  || Object.values(rate) > 5
-  || Object.values(rate) < 1) {
-    return response
-      .status(400)
-      .json({ message: INVALID_RATE });
-  }
-  // https://eslint.org/docs/latest/rules/valid-typeof checar se correto
-
   next();
 };
+
+const validateRate = (request, response, next) => {
+  const { rate } = request.body.talk;
+  if (!Number.isInteger(rate) || !(rate > 0 && rate < 6)) {
+    return response
+      .status(HTTP_BAD_REQUEST)
+      .json({ message: INVALID_RATE });
+  }
+  next();
+};
+// esse corno tá passando 0;
 
 module.exports = {
   validateName,
   validateToken,
   validateAge,
   validateTalk,
-  validateWatched,
+  validateWatchedAt,
+  checkIfRateExist,
   validateRate,
 };
