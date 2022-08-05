@@ -10,6 +10,7 @@ const { validateName, validateToken, validateAge, validateTalk,
 validateWatchedAt, checkIfRateExist, validateRate } = require('./middlewares/talkerValidation');
 const editTalker = require('./helpers/services/editTalker');
 const addTalker = require('./helpers/services/addTalker');
+const deleteTalker = require('./helpers/services/deleteTalker');
 
 const app = express();
 app.use(bodyParser.json());
@@ -35,7 +36,9 @@ app.post('/login', validateEmail, validatePassword, (_request, response) => (
   ));
 
 app.use(validateToken);
-// rota delete aqui
+
+app.delete('/talker/:id', deleteTalker);
+
 app.use(validateName, validateAge, validateTalk, validateWatchedAt, checkIfRateExist, validateRate);
 
 app.post('/talker', addTalker);
