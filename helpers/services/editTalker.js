@@ -1,7 +1,8 @@
 const fs = require('fs').promises;
+const { HTTP_OK_STATUS } = require('../messages/statusMessages');
 const readTalkerJSON = require('./readTalkerJson');
 
-const editTalker = async (request) => {
+const editTalker = async (request, response) => {
   const { id } = request.params;
   const { name, age, talk } = request.body;
 
@@ -16,7 +17,9 @@ const editTalker = async (request) => {
   };
 
   await fs.writeFile('talker.json', JSON.stringify(talkerList));
-  return talkerList[talkerIndex];
+  response
+    .status(HTTP_OK_STATUS)
+    .json(talkerList[talkerIndex]);
 };
 
 module.exports = editTalker;

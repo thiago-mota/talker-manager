@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const createRandomToken = require('./helpers/services/createRandomToken');
 const readTalkerJSON = require('./helpers/services/readTalkerJson');
-const { HTTP_OK_STATUS, HTTP_CREATED } = require('./helpers/messages/statusMessages');
+const { HTTP_OK_STATUS } = require('./helpers/messages/statusMessages');
 const { validateEmail, validatePassword } = require('./middlewares/loginValidation');
 const getTalker = require('./helpers/services/getTalker');
 const talkerIdValidation = require('./middlewares/talkerIdValidation');
@@ -40,11 +40,7 @@ app.use(validateName, validateAge, validateTalk, validateWatchedAt, checkIfRateE
 
 app.post('/talker', addTalker);
 
-app.put('/talker/:id', async (request, response) => {
-  response
-    .status(HTTP_OK_STATUS)
-    .json(await editTalker(request));
-});
+app.put('/talker/:id', editTalker);
 
 // não remova esse endpoint, e para o avaliador funcionar
 app.get('/', (_request, response) => {
