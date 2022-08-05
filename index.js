@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const createRandomToken = require('./helpers/services/createRandomToken');
 const readTalkerJSON = require('./helpers/services/readTalkerJson');
 const { HTTP_OK_STATUS, HTTP_CREATED } = require('./helpers/messages/statusMessages');
-const loginValidation = require('./middlewares/loginValidation');
+const { validateEmail, validatePassword } = require('./middlewares/loginValidation');
 const getTalker = require('./helpers/services/getTalker');
 const talkerIdValidation = require('./middlewares/talkerIdValidation');
 const { validateName, validateToken, validateAge, 
@@ -29,11 +29,11 @@ app.get('/talker/:id', talkerIdValidation, async (request, response) => {
 app.post('/talker', validateToken, validateName, validateAge, validateTalk, validateWatched, validateRate, (request, response) => {
   response
     .status(HTTP_CREATED)
-    .json('xablau');
+    .json(request.body);
     console.log(request.body);
 });
 
-app.post('/login', loginValidation, (_request, response) => (
+app.post('/login', validateEmail, validatePassword, (_request, response) => (
   response
     .status(HTTP_OK_STATUS)
     .json({ token: createRandomToken() })
