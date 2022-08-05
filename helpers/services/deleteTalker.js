@@ -11,7 +11,7 @@ const deleteTalker = async (request, response) => {
 
   response
     .status(HTTP_NO_CONTENT)
-    .json();
+    .end();
 };
 
 module.exports = deleteTalker;
