@@ -57,7 +57,6 @@ const validateAge = (request, response, next) => {
 
 const validateTalk = (request, response, next) => {
   const { talk } = request.body;
-  // const { watchedAt, rate } = request.body.talk;
 
   if (!talk) {
     return response
