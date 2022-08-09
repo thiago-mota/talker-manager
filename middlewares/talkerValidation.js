@@ -108,7 +108,6 @@ const validateRate = (request, response, next) => {
   }
   next();
 };
-// esse corno tá passando 0;
 
 module.exports = {
   validateName,
