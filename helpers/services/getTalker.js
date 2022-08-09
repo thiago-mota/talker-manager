@@ -1,10 +1,5 @@
 const findTalker = require('./findTalker');
 
-const getTalker = async (request) => {
-  const { id } = request.params;
-  const talker = await findTalker(id);
-  
-  return talker;
-};
+const getTalker = async (request) => findTalker(request.params.id);
 
 module.exports = getTalker;
