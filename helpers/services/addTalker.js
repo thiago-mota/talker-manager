@@ -15,8 +15,7 @@ const addTalker = async (request, response) => {
 
   talkerList.push(newTalker);
   await fs.writeFile('talker.json', JSON.stringify(talkerList));
-  console.log(talkerList[talkerList.length - 1]);
-  response.status(201).json(talkerList[talkerList.length - 1]);
+  response.status(201).json(newTalker);
 };
 
 module.exports = addTalker;
